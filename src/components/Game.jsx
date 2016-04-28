@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {init, iteration, move} from '../action_creators';
-import moveRandom from '../ai/random_moves.js'
+import {init, iteration, move, setState} from '../action_creators';
+import getStateWithMaxScore from '../ai'
 
 const style = {
   container:{
@@ -39,9 +39,9 @@ export const Game = React.createClass({
     this.props.iteration()
   },
   startAI() {
-    if(this.props.lost || this.props.hasWon) return
+    if(this.props.game.lost || this.props.game.hasWon) return
     setTimeout(()=> {
-      this.props.move(moveRandom())
+      this.props.setState(getStateWithMaxScore(this.props.game))
       this.props.iteration()
       this.startAI()
     },1)
@@ -57,8 +57,8 @@ export const Game = React.createClass({
         </div>
         <div className="row">
           <div className="col-md-2 col-md-offset-3">
-            {this.props.lost ? <div style={style.lost}>Lost</div> : ''}
-            {this.props.hasWon ? <div>Won!</div> : ''}
+            {this.props.game.lost ? <div style={style.lost}>Lost</div> : ''}
+            {this.props.game.hasWon ? <div>Won!</div> : ''}
           </div>
         </div>
         {this.props.children}
@@ -69,13 +69,10 @@ export const Game = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    board: state.get('board'),
-    hasWon: state.get('hasWon'),
-    lost: state.get('lost')
+    game: state,
   };
 }
 
 export const GameContainer = connect(mapStateToProps, {
   init,
-  iteration,
-  move})(Game);
+  iteration, setState})(Game);

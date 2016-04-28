@@ -42,6 +42,59 @@ describe('helper functions', () => {
     expect(emptyCells).to.equal(fromJS([[0,0],[1,0],[2,2]]))
   })
 
+  it('returns board with the max cell value', () => {
+    const A = fromJS({
+      board: [[1,1,5],
+              [4,3,6],
+              [5,1,14]]
+    })
 
+    const B = fromJS({
+      board: [[1,1,5],
+            [4,3,6],
+            [100,1,13]]
+    })
 
+    const C = fromJS({
+      board: [[1,1,5],
+            [4,3,6],
+            [4,1,13]]
+    })
+
+    const nextState = helpers.maximizeCellValue(A, B, C)
+
+    expect(nextState.get('board')).to.equal(fromJS([
+      [1,1,5],
+      [4,3,6],
+      [100,1,13]
+    ]))
+  })
+
+  it('returns board with the max score', () => {
+    const A = fromJS({
+      board: [[1,1,5],
+              [4,3,6],
+              [5,1,14]]
+    })
+
+    const B = fromJS({
+      board: [[1,1,5],
+            [4,3,6],
+            [100,1,13]]
+    })
+
+    const C = fromJS({
+      board: [[1,1,5],
+            [4,3,6],
+            [4,1,13]]
+    })
+
+    const nextState = helpers.maximizeScore(A, B, C)
+
+    expect(nextState.get('board')).to.equal(fromJS([
+      [1,1,5],
+      [4,3,6],
+      [100,1,13]
+    ]))
+  })
 });

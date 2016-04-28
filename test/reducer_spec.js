@@ -1,6 +1,6 @@
 import {List, Map, fromJS} from 'immutable';
 import {expect} from 'chai';
-import reducer from '../src/reducer';
+import reducer from '../src/reducers/game';
 
 describe('reducer', () => {
   let e; //empty cell (undefined)
@@ -194,6 +194,23 @@ describe('reducer', () => {
     expect(nextState.get('lost')).to.equal(false)
   });
 
+  it('calculates Score', () => {
+    const state = fromJS({
+      score: 10,
+      board:  [[8,128,e,2],
+              [8,32 ,e,e],
+              [8,64 ,e,2],
+              [8,16 ,2,2]]
+    })
+
+    //36 created from this move is added to previous 10
+    const action = { type: 'MOVE_UP' };
+
+    const nextState = reducer(state, action);
+
+    expect(nextState.get('score')).to.equal(46);
+  });
+
   it('initalize game, add first cell, and move one position', () => {
     const state = fromJS({
       lost: false,
@@ -222,6 +239,7 @@ describe('reducer', () => {
     const state = fromJS({
       lost: false,
       emptyCells: 12,
+      score: 10,
       board: [[4,8,4,2],
               [e,e,e,e],
               [e,e,e,e],
@@ -240,6 +258,7 @@ describe('reducer', () => {
       lost: false,
       emptyCells: 12,
       hasWon: false,
+      score: 10,
       board: [[4,8,4,2],
               [e,e,e,e],
               [e,e,e,e],

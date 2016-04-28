@@ -1,10 +1,12 @@
 import { Map } from 'immutable'
-import { init, tick, transverseX, transverseY} from './core'
+import { init, tick, transverseX, transverseY} from '../core'
 
 export default function(state = Map(), action) {
   switch (action.type) {
   case 'INIT':
     return init(state)
+  case 'SET_STATE':
+    return state.merge(action.state)
   case 'TICK':
     return tick(state)
   case 'MOVE_RIGHT':

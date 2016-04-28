@@ -65,7 +65,7 @@ export function transverseX(state, dir='MOVE_LEFT') {
     board.forEach((row,i) => {
       row.forEach((val,j) => {
         if(avalCells) return; //already found one, return
-        //check all adjacent cells (no diagnols)
+        //check all adjacent cells
         if((i-1 >= 0 && board.get(i-1).get(j) == val ) || //top
            (i+1 < size && board.get(i+1).get(j) == val) ||//bottom
            (j-1 >= 0 && board.get(i).get(j-1) == val) ||  //left
@@ -78,6 +78,8 @@ export function transverseX(state, dir='MOVE_LEFT') {
       return state.set('lost', true)
     }
   }
+
+  let score = state.get('score')
 
   state = state.update('board', (board) => board.map((row) => {
     let foundMatch = false;
@@ -93,11 +95,13 @@ export function transverseX(state, dir='MOVE_LEFT') {
       }
        //found match
       else if(curr === row.get(i+1)) {
+        const newVal = curr*2
+        score+=newVal
         //won game
-        if(curr*2 === 2048) hasWon = true
+        if(newVal === 2048) hasWon = true
         foundMatch = true
         emptyCells = emptyCells + 1
-        return prev.push(curr*2)
+        return prev.push(newVal)
       }
        //didn't find match
       return prev.push(curr)
@@ -106,7 +110,7 @@ export function transverseX(state, dir='MOVE_LEFT') {
     return (dir==='MOVE_RIGHT') ? row.reverse() : row
   }))
 
-  return state.merge({ hasWon: hasWon, emptyCells: emptyCells })
+  return state.merge({ hasWon: hasWon, emptyCells: emptyCells, score: score })
 }
 
 /**

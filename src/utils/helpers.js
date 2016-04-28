@@ -46,9 +46,7 @@ export const maximizeScore = (...states) => {
   let curScore
   let bestState;
   states.forEach((state) => {
-    curScore = state.get('board').reduce((prevRow, currRow) => {
-      return prevRow + compact(currRow).reduce((prev, curr) => prev + curr)
-    },0)
+    curScore = state.get('score')
     if(curScore>maxScore) {
       maxScore = curScore
       bestState = state

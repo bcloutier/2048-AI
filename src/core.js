@@ -10,6 +10,7 @@ export function init(state) {
     lost:false,
     hasWon: false,
     emptyCells: 16,
+    score: 0,
     prevBoard: [[],[],[]],
     board: [[e,e,e,e],
             [e,e,e,e],

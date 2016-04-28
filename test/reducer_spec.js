@@ -20,6 +20,7 @@ describe('reducer', () => {
       lost: false,
       emptyCells: 16,
       hasWon: false,
+      score: 0,
       prevBoard: [[],[],[]],
       board: [[e,e,e,e],
               [e,e,e,e],

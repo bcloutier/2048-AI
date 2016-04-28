@@ -10,7 +10,7 @@ const style = {
     fontFamily: '"Clear Sans", "Helvetica Neue", Arial, sans-serif',
     overflowX: 'hidden'
   },
-  button:{
+  panel:{
     textAlign: 'center',
     borderRadius: '3px',
     padding: '15px 20px 15px 20px',
@@ -22,7 +22,7 @@ const style = {
     fontWeight: 'bold',
     fontSize: '18px',
     textDecoration: 'none',
-    marginRight:'305px'
+    marginRight:'90px'
   },
   buttonRow:{
     height:'70px'
@@ -39,7 +39,7 @@ export const Game = React.createClass({
     this.props.iteration()
   },
   startAI() {
-    if(this.props.game.lost || this.props.game.hasWon) return
+    if(this.props.lost || this.props.hasWon) return
     setTimeout(()=> {
       this.props.setState(getStateWithMaxScore(this.props.game))
       this.props.iteration()
@@ -51,14 +51,15 @@ export const Game = React.createClass({
       <div className="container" style={style.container}>
         <div className="row" style={style.buttonRow}>
           <div className="col-md-2 col-md-offset-3">
-            <a style={style.button} onClick={this.handleRestart}>Restart</a>
-            <a style={style.button} onClick={this.startAI}>AI</a>
+            <a style={style.panel} onClick={this.handleRestart}>Restart</a>
+            <a style={style.panel}>Score:{this.props.score}</a>
+            <a style={style.panel} onClick={this.startAI}>AI</a>
           </div>
         </div>
         <div className="row">
           <div className="col-md-2 col-md-offset-3">
-            {this.props.game.lost ? <div style={style.lost}>Lost</div> : ''}
-            {this.props.game.hasWon ? <div>Won!</div> : ''}
+            {this.props.lost ? <div style={style.lost}>Lost</div> : ''}
+            {this.props.hasWon ? <div>Won!</div> : ''}
           </div>
         </div>
         {this.props.children}
@@ -70,6 +71,9 @@ export const Game = React.createClass({
 function mapStateToProps(state) {
   return {
     game: state,
+    lost: state.get('lost'),
+    hasWon: state.get('hasWon'),
+    score: state.get('score')
   };
 }
 

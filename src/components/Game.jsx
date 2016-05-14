@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {init, iteration, move, setState} from '../action_creators';
-import getStateWithMaxScore from '../ai'
+import calculateBestMove from '../ai'
 
 const style = {
   container:{
@@ -37,11 +37,12 @@ export const Game = React.createClass({
   handleRestart() {
     this.props.init()
     this.props.iteration()
+    this.props.iteration()
   },
   startAI() {
     if(this.props.lost || this.props.hasWon) return
     setTimeout(()=> {
-      this.props.setState(getStateWithMaxScore(this.props.game))
+      this.props.setState(calculateBestMove(this.props.game, 4))
       this.props.iteration()
       this.startAI()
     },1)

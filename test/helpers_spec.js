@@ -72,18 +72,21 @@ describe('helper functions', () => {
 
   it('returns board with the max score', () => {
     const A = fromJS({
+      score: 30,
       board: [[1,1,5],
               [4,3,6],
               [5,1,14]]
     })
 
     const B = fromJS({
+      score: 40,
       board: [[1,1,5],
             [4,3,6],
             [100,1,13]]
     })
 
     const C = fromJS({
+      score: 10,
       board: [[1,1,5],
             [4,3,6],
             [4,1,13]]
@@ -91,10 +94,6 @@ describe('helper functions', () => {
 
     const nextState = helpers.maximizeScore(A, B, C)
 
-    expect(nextState.get('board')).to.equal(fromJS([
-      [1,1,5],
-      [4,3,6],
-      [100,1,13]
-    ]))
+    expect(nextState.get('score')).to.equal(40)
   })
 });

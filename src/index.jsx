@@ -20,6 +20,7 @@ const store = createStore(reducer);
 // Initalize board and add first cell
 store.dispatch(init());
 store.dispatch(iteration());
+store.dispatch(iteration());
 
 // Initalize global event listens for moving. Not using react-hotkeys
 // cause that requires focus on board
